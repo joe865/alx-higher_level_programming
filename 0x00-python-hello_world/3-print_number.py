@@ -1,3 +1,3 @@
 #!/usr/bin/python3
-age = 98
-f"{age} Battery street\n"
+number = 98
+f"{number} Battery street\n"
