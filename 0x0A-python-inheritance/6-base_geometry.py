@@ -1,17 +1,11 @@
 #!/usr/bin/python3
 """
-Module 6-base_geometry
-
-Contains empty class BaseGeometry
-with public instance method area
+Contains the class BaseGeometry
 """
 
 
 class BaseGeometry:
-    """
-    Methods:
-        area(self)
-    """
+    """A class with public attribute area"""
     def area(self):
-        """not implemented"""
+        """raises an exception when called"""
         raise Exception("area() is not implemented")

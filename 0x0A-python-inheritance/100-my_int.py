@@ -1,33 +1,19 @@
 #!/usr/bin/python3
 """
-Module 100-my_int
-
-Contains class MyInt that inherits from int
-Sneaky --> has == and != operators inverted!
+Contains the class MyInt
 """
 
 
 class MyInt(int):
-    """
-    Methods:
-        __init__(self, num)
-        __eq__(self, other)
-        __ne__(self, other)
-    """
-    def __init__(self, num):
-        """initialize num"""
-        self.num = num
+    """rebel version of an integer, perfect for opposite day!"""
+    def __new__(cls, *args, **kwargs):
+        """create a new instance of the class"""
+        return super(MyInt, cls).__new__(cls, *args, **kwargs)
 
     def __eq__(self, other):
-        """
-        Return:
-           True if both not equal
-        """
-        return self.num != other
+        """what was != is now =="""
+        return int(self) != other
 
     def __ne__(self, other):
-        """
-        Return:
-           True if both equal
-        """
-        return self.num == other
+        """what was == is now !="""
+        return int(self) == other
