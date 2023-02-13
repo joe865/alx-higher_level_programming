@@ -1,96 +1,84 @@
 #!/usr/bin/python3
-"""
-Module contains class Square
-
-Inherits from Rectangle;
-Inits superclass' id, width (as size), height (as size), x, y
-Contains public attribute size
-Prints [Square] (<id>) <x>/<y> - <size>
-Updates attributes: arg1=id, arg2=size, arg3=x, arg4=y
-Returns dictionary representation of attributes
-"""
-
-
+"""Module containing Square class"""
 from models.rectangle import Rectangle
 
 
 class Square(Rectangle):
-    """
-    defines class Square; inherits from class Rectangle
-    Inherited Attributes:
-        id
-        __weight        __height
-        __x             __y
-    Class Attributes:
-        size
-    Inherted Methods:
-        Base.init(self, id=None)
-        Rectangle.init(self, width, height, x=0, y=0, id=None)
-        update(self, *args, **kwargs)
-        width(self)      width(self, value)
-        height(self)     height(self, value)
-        x(self)          x(self, value)
-        y(self)          y(self, value)
-        area(self)       display(self)
-    Methods:
-        __str__
-        __init__(self, size, x=0, y=0, id=None)
-        update(self, *args, **kwargs)
-        size(self)       size(self, value)
-        to_dictionary(self)
-    """
+    """Class to represent a square deriving from Rectangle"""
     def __init__(self, size, x=0, y=0, id=None):
-        """Initialize"""
-        super().__init__(size, size, x, y, id)
+        """Initialize new square with width and height equal to `size`.
+
+        Args:
+            size (int): side lengths of square
+            x (int): width offset for drawing square
+            y (int): height offset for drawing square
+            id: identifier for instance. If None, then object count.
+
+        Raises:
+            TypeError: If args are not int (or None for id)
+            ValueError: If size is <= 0 or x, y and < 0 or id < 0
+        """
+        super().__init__(size, size, x=x, y=y, id=id)
         self.size = size
 
     @property
     def size(self):
-        """Getter size"""
+        """Getter/setter for size propetry.
+        Uses width attribute from Rectangle parent to store `size`.
+
+        Raises:
+            TypeError: If `size` is not an int.
+            ValueError: If `size` is <= 0.
+
+        Returns: value associated with `size`.
+        """
         return self.width
 
     @size.setter
     def size(self, value):
-        """Setter size - sets width and height as size"""
-        self.width = value
-        self.height = value
+        """Setter for `size`."""
+        setattr(self, "width", value)
 
     def __str__(self):
-        """Prints [Square] (<id>) <x>/<y> - <size>"""
+        """Returns string representation of Square instance.
+
+        Example:
+            >>> s = Square(3, 4, 8, 9) # --> (size, x, y, id)
+            >>> print(s)
+            [Square] (9) 4/8 - 3
+        """
         return "[{:s}] ({:d}) {:d}/{:d} - {:d}".format(
-            self.__class__.__name__, self.id, self.x, self.y,
-            self.size)
+            self.__class__.__name__,
+            self.id,
+            self.x, self.y,
+            self.size
+        )
 
     def update(self, *args, **kwargs):
+        """Update Square instances with *args and **kwargs.
+        Order of *args is 'id', 'size', 'x', 'y'. **kwargs can be in
+        any order.
+
+        Example:
+            >>> s = Square(1)
+            >>> args = [6]; kwargs = {"size": 4, "y": 3}
+            >>> s.update(*args, **kwargs)
+            >>> print(s)
+            [Square] (6) 0/3 - 4
         """
-        If args: set attributes in this order: id, width, height, x, y
-        If no args given: set attributes according to kwargs
-        """
-        if args:
-            for k, v in enumerate(args):
-                if k == 0:
-                    self.id = v
-                elif k == 1:
-                    self.size = v
-                elif k == 2:
-                    self.x = v
-                else:
-                    self.y = v
-        else:
-            if "id" in kwargs:
-                self.id = kwargs["id"]
-            if "size" in kwargs:
-                self.size = kwargs["size"]
-            if "x" in kwargs:
-                self.x = kwargs["x"]
-            if "y" in kwargs:
-                self.y = kwargs["y"]
+        attrs = ["id", "size", "x", "y"]
+        for attr, arg in zip(attrs, args):
+            setattr(self, attr, arg)
+        for k, v in kwargs.items():
+            setattr(self, k, v)
 
     def to_dictionary(self):
-        """Return dictionary representation"""
-        d = {}
-        d["id"] = self.id
-        d["size"] = self.size
-        d["x"] = self.x
-        d["y"] = self.y
-        return d
+        """Return dictionary representation of writable attributes.
+
+        Example:
+            >>> s = Square(1, 2, 3, 4)
+            >>> s.to_dictionary()
+            {"id": 4, "size": 1, "x": 2, "y": 3}
+        """
+        attrs = ["id", "size", "x", "y"]
+        return {k: getattr(self, k) for k in attrs}
